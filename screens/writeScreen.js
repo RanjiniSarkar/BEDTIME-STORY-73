@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TextInput, TouchableOpacity,StyleSheet } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity,StyleSheet, KeyboardAvoidingView, ToastAndroid } from 'react-native';
 import * as firebase from 'firebase'
 import db from '../config.js'
 export default class WriteScreen extends React.Component {
@@ -42,10 +42,12 @@ export default class WriteScreen extends React.Component {
       if(story.storyText){
         this.initiateWriteStory();
         writingMessage = "STORY SUBMITTED"
+        ToastAndroid.show(writingMessage, ToastAndroid.SHORT);
       }
       else{
         this.initiateNoStory();
         writingMessage = "WRITE YOUR STORY"
+        ToastAndroid.show(writingMessage, ToastAndroid.SHORT);
       }
     })
   }
@@ -55,7 +57,7 @@ export default class WriteScreen extends React.Component {
 
     render() {
       return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior = "padding" enabled>
           <Text style={styles.displayText}>WRITE YOUR STORY</Text>
           <View>
             <TextInput style={styles.inputBox }
@@ -81,11 +83,14 @@ export default class WriteScreen extends React.Component {
         />
 
         <TouchableOpacity style={styles.submitButton}
-        onPress = {async()=>{this.handleWritingMessage()}}>
+        onPress = {async()=>{ var writingMessage = this.handleWritingMessage();
+          this.setState(
+            {story:''})
+             }}>
         <Text style={styles.submitButtonText}>SUBMIT</Text>
         </TouchableOpacity>
         </View>
-       </View>
+       </KeyboardAvoidingView>
         
     
       );
