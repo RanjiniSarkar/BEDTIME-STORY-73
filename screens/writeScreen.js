@@ -33,7 +33,7 @@ export default class WriteScreen extends React.Component {
      storyText:' '
     })
   }
-  writingMessage = ()=>{
+  handleWritingMessage = async()=>{
     var writingMessage
     db.collection("stories").doc(this.state.storyText).get()
     .then((doc)=>{
@@ -81,7 +81,7 @@ export default class WriteScreen extends React.Component {
         />
 
         <TouchableOpacity style={styles.submitButton}
-        onPress = {async()=>{this.writingMessage()}}>
+        onPress = {async()=>{this.handleWritingMessage()}}>
         <Text style={styles.submitButtonText}>SUBMIT</Text>
         </TouchableOpacity>
         </View>
