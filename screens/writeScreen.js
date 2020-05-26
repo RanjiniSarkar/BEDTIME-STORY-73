@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TextInput, TouchableOpacity,StyleSheet, KeyboardAvoidingView, ToastAndroid } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity,StyleSheet} from 'react-native';
 import * as firebase from 'firebase'
 import db from '../config.js'
 export default class WriteScreen extends React.Component {
@@ -18,7 +18,7 @@ export default class WriteScreen extends React.Component {
       'date': firebase.firestore.Timestamp.now().toDate(),
       'writingType': "Written"
     })
-  
+   
   db.collection("stories").doc(this.state.storyText).update({
     'storyText':this.state.story
   })
@@ -42,13 +42,15 @@ export default class WriteScreen extends React.Component {
       if(story.storyText){
         this.initiateWriteStory();
         writingMessage = "STORY SUBMITTED"
-        ToastAndroid.show(writingMessage, ToastAndroid.SHORT);
+        
       }
       else{
         this.initiateNoStory();
         writingMessage = "WRITE YOUR STORY"
-        ToastAndroid.show(writingMessage, ToastAndroid.SHORT);
       }
+    })
+    this.setState({
+      writingMessage: writingMessage
     })
   }
   
@@ -57,17 +59,19 @@ export default class WriteScreen extends React.Component {
 
     render() {
       return (
-        <KeyboardAvoidingView style={styles.container} behavior = "padding" enabled>
+        <View style={styles.container} >
           <Text style={styles.displayText}>WRITE YOUR STORY</Text>
           <View>
             <TextInput style={styles.inputBox }
-            placeholder="TITLE OF THE STORY"
+            multiline
+            placeholder = "TITLE OF THE STORY"
             onChangeText={text => {
             this.setState({ title: text });
           }}
           value={this.state.title}
            />
            <TextInput style={styles.inputBox1}
+           multiline
             placeholder="NAME OF THE AUTHOR"
              onChangeText={text => {
             this.setState({ author: text });
@@ -75,6 +79,7 @@ export default class WriteScreen extends React.Component {
           value={this.state.author}
           />
            <TextInput style={styles.inputBox2}
+           multiline
             placeholder="WRITE YOUR STORY"
              onChangeText={text => {
             this.setState({ story: text});
@@ -83,14 +88,15 @@ export default class WriteScreen extends React.Component {
         />
 
         <TouchableOpacity style={styles.submitButton}
-        onPress = {async()=>{ var writingMessage = this.handleWritingMessage();
-          this.setState(
-            {story:''})
-             }}>
+        onPress = {async()=>{ var writingMessage = this.handleWritingMessage()
+        this.setState({
+          story: ' '
+        })}}>
         <Text style={styles.submitButtonText}>SUBMIT</Text>
         </TouchableOpacity>
         </View>
-       </KeyboardAvoidingView>
+        </View>
+       
         
     
       );
