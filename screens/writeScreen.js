@@ -48,7 +48,7 @@ export default class WriteScreen extends React.Component {
 
   initiateWriteStory = async ()=>{
     //add a transaction
-    db.collection("transaction").add({
+    db.collection("writing").add({
       'storiesId' : this.state.scannedId,
        'storyText':this.state.story,
        'author':this.state.author,
